@@ -10,3 +10,10 @@ root folder for Calrec "lightsOUT" test script
   - mrPing.exp
   - navToMR.exp
   - routerResets.exp
+    
+    conf
+      - deskIDList.txt
+      - deskLevelList.txt
+      - deskPackList.txt
+    coreHIDs
+      - 
