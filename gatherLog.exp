@@ -1,0 +1,32 @@
+#!/usr/bin/expect
+
+set isMasterRouter [lindex $argv 0]
+set deskID [lindex $argv 1]
+set cardAddr [lindex $argv 2]
+
+if { $isMasterRouter == 1 } {
+	spawn ssh root@54.18.1.0
+	expect "assword: "
+	send "M0ntana\r"
+	expect "#"
+	send "mkdir lightsOUT_log_gather\r"
+	expect "#"
+	send "scp -o 'StrictHostKeyChecking no' root@54.18.$cardAddr.0:/home/montana/Router/Geode/H2Router/H2Router.log lightsOUT_log_gather/54.18.$cardAddr-MasterRouter.log\r"
+	expect "assword"
+	send "M0ntana\r"
+	expect "#"
+
+} elseif { $isMasterRouter == 0 } {
+	spawn ssh root@54.18.1.0
+	expect "assword: "
+	send "M0ntana\r"
+	expect "#"
+	send "mkdir lightsOUT_log_gather\r"
+	expect "#"
+	send "scp -o 'StrictHostKeyChecking=no' root@54.18.$cardAddr.0:/home/montana/Router/Geode/H2Router/H2Router.log lightsOUT_log_gather/54.18.$cardAddr-MasterRouter.log\r"
+	expect "assword"
+	send "M0ntana\r"
+	expect "#"	
+} else {
+	puts "NOPE"
+}

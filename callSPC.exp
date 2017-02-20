@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+
+set cardAddr [lindex $argv 0]
+
+spawn ssh root@54.18.1.0
+expect "assword: "
+send "M0ntana\r"
+expect "#"
+
+send "telnet 54.18.$cardAddr.0 55555\r"
+expect "Escape character is '^]'.\r"
+send \u001d
+expect "telnet>"
+send "mode char\r"	
+
+expect "Telnet >"
+
+send "spc\r"
+
+expect " "
+send \u001d
+expect "telnet>"
+send "quit\r"
+
