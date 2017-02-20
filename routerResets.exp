@@ -1,0 +1,57 @@
+#!/usr/bin/expect
+
+set loopCount 0
+
+set deskID [lindex $argv 0]				
+set cardAddr [lindex $argv 1]							
+set resetMethod [lindex $argv 2]
+set isMasterRouter [lindex $argv 3]
+
+if { $isMasterRouter == 0 } {
+
+	spawn ssh root@54.18.1.0
+	expect "assword: "
+	send "M0ntana\r"
+	expect "# "
+	
+	send "ssh 54.18.5.0 \r"
+	expect "assword: "
+	send "M0ntana\r"
+	expect "# "
+
+	send "telnet $deskID.$cardAddr.0 55555\r"
+	expect "Escape character is '^]'.\r"
+	send \u001d				
+	expect "telnet>"
+	send "mode char\r"				
+	expect "Telnet >"
+
+	send "$resetMethod \r"
+
+	expect "\n"
+	send \u001d
+	expect "telnet>"
+	send "quit\r"
+
+} else {
+
+	spawn ssh root@54.18.1.0
+	expect "assword: "
+	send "M0ntana\r"
+	expect "# "
+
+	send "telnet $deskID.$cardAddr.0 55555\r"
+	expect "Escape character is '^]'.\r"
+	send \u001d				
+	expect "telnet>"
+	send "mode char\r"				
+	expect "Telnet >"
+	
+	send "$resetMethod\r"
+
+	expect "\n"
+	send \u001d
+	expect "telnet>"
+	send "quit\r"
+
+}

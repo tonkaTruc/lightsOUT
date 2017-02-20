@@ -1,0 +1,25 @@
+#!/usr/bin/expect
+
+set targetDeskID [lindex $argv 0]
+set priSec [lindex $argv 1]
+
+if { $priSec == "5" } {
+	set assocRouter "6"
+} else {
+	set assocRouter "5"
+}
+
+spawn ssh root@54.18.1.0
+expect "assword: "
+send "M0ntana\r"
+expect "# "
+
+send "ssh 54.18.$assocRouter.0 \r"
+expect "assword: "
+send "M0ntana\r"
+expect "# "
+send "ping -c 8 $targetDeskID.$priSec.0\r"
+expect "# "
+send "exit\r"
+expect "# "
+send "exit\r"
